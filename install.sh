@@ -5,8 +5,8 @@
 #   profile-dir defaults to ${DSH_HOME:-$HOME/.dsh}/profiles/web
 #
 # Does the two halves of the install:
-#   1. pnpm add dsh-model-customization in the profile directory
-#      (== `dsh plugin --profile <name> add dsh-model-customization`)
+#   1. pnpm add -w dsh-model-customization in the profile directory
+#      (== `dsh plugin --profile <name> add -w dsh-model-customization`)
 #   2. appends the cordis.patch.yml row that mounts the client plugin
 #
 # Idempotent: safe to re-run (also the upgrade path).
@@ -28,7 +28,13 @@ command -v pnpm >/dev/null 2>&1 || {
 }
 
 echo "→ pnpm add $PKG_NAME in $PROFILE_DIR"
-(cd "$PROFILE_DIR" && pnpm add "$PKG_NAME")
+# -w targets the profile root: required when the workspace holds other
+# packages, harmless otherwise. Plain `add` only for non-workspace dirs.
+if [ -f "$PROFILE_DIR/pnpm-workspace.yaml" ]; then
+  (cd "$PROFILE_DIR" && pnpm add -w "$PKG_NAME")
+else
+  (cd "$PROFILE_DIR" && pnpm add "$PKG_NAME")
+fi
 
 echo "→ appending cordis row"
 if ! grep -qE "^[[:space:]]+-[[:space:]]+id:[[:space:]]+${ROW_ID}[[:space:]]*$" "$PROFILE_DIR/cordis.patch.yml"; then
@@ -43,4 +49,4 @@ fi
 
 echo ""
 echo "done. Restart dsh (e.g. re-run 'dsh web') to pick up the 模型定制 settings section."
-echo "upgrade later with: dsh plugin --profile <name> update $PKG_NAME"
+echo "upgrade later with: dsh plugin --profile <name> update -w $PKG_NAME"

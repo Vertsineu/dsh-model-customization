@@ -37,8 +37,10 @@ A pure-client plugin for the [dsh](https://github.com/deepseek-ai/deepseek-harne
 The package is published to npm, so dsh's built-in plugin management installs it directly (it forwards to pnpm in the profile directory):
 
 ```sh
-dsh plugin --profile web add dsh-model-customization
+dsh plugin --profile web add -w dsh-model-customization
 ```
+
+(`-w` tells pnpm to add to the profile root — required when the workspace holds other packages, harmless in the standard single-package profile. Everything after `dsh plugin --profile web` is forwarded to pnpm verbatim.)
 
 Then append one composition row to the profile's `cordis.patch.yml` (e.g. `$DSH_HOME/profiles/web/cordis.patch.yml`) — pnpm cannot do this part for you:
 
@@ -50,7 +52,7 @@ Then append one composition row to the profile's `cordis.patch.yml` (e.g. `$DSH_
 
 **Restart dsh** (run `dsh web` again) — the settings page gains a **模型定制 / Model Customization** section.
 
-Upgrade: `dsh plugin --profile web update dsh-model-customization` (or re-run the add command).
+Upgrade: `dsh plugin --profile web update -w dsh-model-customization` (or re-run the add command).
 
 ### One-shot script (both steps at once)
 

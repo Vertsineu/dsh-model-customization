@@ -37,8 +37,10 @@
 包已发布到 npm，可直接用 dsh 内置的插件管理命令安装（它会转发给 profile 目录内的 pnpm）：
 
 ```sh
-dsh plugin --profile web add dsh-model-customization
+dsh plugin --profile web add -w dsh-model-customization
 ```
+
+（`-w` 表示加到 profile 根：workspace 里还有其他包时必需，标准单包 profile 里无副作用。`dsh plugin --profile web` 之后的参数会原样转发给 pnpm。）
 
 然后在 profile 的 `cordis.patch.yml`（如 `$DSH_HOME/profiles/web/cordis.patch.yml`）末尾追加一行组合入口（pnpm 无法代替这一步）：
 
@@ -50,7 +52,7 @@ dsh plugin --profile web add dsh-model-customization
 
 再**重启 dsh**（重新执行 `dsh web`），设置页即出现「模型定制」分区。
 
-升级：`dsh plugin --profile web update dsh-model-customization`（或重跑 add 命令）。
+升级：`dsh plugin --profile web update -w dsh-model-customization`（或重跑 add 命令）。
 
 ### 一键脚本（上两步一次做完）
 
