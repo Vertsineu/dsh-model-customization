@@ -32,6 +32,18 @@ A pure-client plugin for the [dsh](https://github.com/deepseek-ai/deepseek-harne
 
 ## Installation
 
+### One-liner (curl | sh)
+
+```sh
+curl -fsSL https://raw.githubusercontent.com/Vertsineu/dsh-model-customization/main/install.sh | sh
+```
+
+Equivalent to cloning the repo and running `./install.sh` (web profile `${DSH_HOME:-$HOME/.dsh}/profiles/web` by default). To target another profile directory:
+
+```sh
+curl -fsSL https://raw.githubusercontent.com/Vertsineu/dsh-model-customization/main/install.sh | sh -s ~/.dsh/profiles/tui
+```
+
 ### Recommended: `dsh plugin` (npm)
 
 The package is published to npm, so dsh's built-in plugin management installs it directly (it forwards to pnpm in the profile directory):
@@ -100,10 +112,14 @@ The plugin is a pure-client dsh plugin (dual-face package):
 
 ## Uninstall
 
-1. Remove the `insert` row from `cordis.patch.yml`.
-2. Remove the `"dsh-model-customization"` dependency from the profile's `package.json`.
-3. Delete the plugin directory and run `pnpm install` in the profile directory.
-4. Restart dsh.
+```sh
+git clone https://github.com/Vertsineu/dsh-model-customization.git
+cd dsh-model-customization
+./uninstall.sh                        # web profile by default
+./uninstall.sh ~/.dsh/profiles/tui    # or pass another profile directory
+```
+
+The script removes the plugin's `insert` block from `cordis.patch.yml` (including the two comment lines the installer writes; hand-written rows are safe — only this plugin's own rows are removed) and removes the dependency from the profile's `package.json` (equivalent to `dsh plugin --profile web remove -w dsh-model-customization`). Idempotent, safe to re-run. Restart dsh afterwards.
 
 ## License
 

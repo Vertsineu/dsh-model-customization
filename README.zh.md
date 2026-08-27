@@ -32,6 +32,18 @@
 
 ## 安装
 
+### 一行命令（curl | sh）
+
+```sh
+curl -fsSL https://raw.githubusercontent.com/Vertsineu/dsh-model-customization/main/install.sh | sh
+```
+
+等价于 clone 仓库后执行 `./install.sh`（默认装到 web profile `${DSH_HOME:-$HOME/.dsh}/profiles/web`）。指定其他 profile 目录：
+
+```sh
+curl -fsSL https://raw.githubusercontent.com/Vertsineu/dsh-model-customization/main/install.sh | sh -s ~/.dsh/profiles/tui
+```
+
 ### 推荐：`dsh plugin`（npm）
 
 包已发布到 npm，可直接用 dsh 内置的插件管理命令安装（它会转发给 profile 目录内的 pnpm）：
@@ -100,10 +112,14 @@ pi-ai 路由的内置目录模型，逐模型修改写入 `modelOverrides`（部
 
 ## 卸载
 
-1. 删除 `cordis.patch.yml` 中对应的 `insert` 行
-2. 从 profile 的 `package.json` 移除 `"dsh-model-customization"` 依赖
-3. 删除插件目录并在 profile 目录执行 `pnpm install`
-4. 重启 dsh
+```sh
+git clone https://github.com/Vertsineu/dsh-model-customization.git
+cd dsh-model-customization
+./uninstall.sh                        # 默认卸载 web profile
+./uninstall.sh ~/.dsh/profiles/tui    # 或指定其他 profile 目录
+```
+
+脚本会删除 `cordis.patch.yml` 中本插件的 `insert` 块（含安装时写的两行注释；手写的行也安全——只删该插件自己的行），并从 profile 的 `package.json` 移除依赖（等价于 `dsh plugin --profile web remove -w dsh-model-customization`）。幂等，可重复执行。完成后重启 dsh。
 
 ## 许可
 
