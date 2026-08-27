@@ -1,7 +1,6 @@
 {
   "name": "dsh-model-customization",
-  "description": "模型定制工作台: 按提供方路由与模型粒度定制输入类型、thinking 级别与额外参数, 写入现有 llm-pi-ai / llm-deepseek 设置段",
-  "private": true,
+  "description": "dsh web 插件「模型定制工作台」: per-route/per-model model customization UI (input modalities, thinking levels, extra request params) over the llm-pi-ai / llm-deepseek settings sections",
   "version": "0.1.0",
   "type": "module",
   "main": "lib/index.js",
@@ -10,6 +9,9 @@
     "./client": "./lib/client.js",
     "./package.json": "./package.json"
   },
+  "files": [
+    "lib"
+  ],
   "dsh": {
     "client": {
       "inject": [
@@ -19,6 +21,24 @@
       ],
       "platform": "web"
     }
+  },
+  "keywords": [
+    "dsh",
+    "deepseek-harness",
+    "cordis",
+    "plugin",
+    "llm",
+    "settings",
+    "vllm",
+    "deepseek",
+    "thinking"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Vertsineu/dsh-model-customization.git"
+  },
+  "publishConfig": {
+    "access": "public"
   },
   "license": "MIT"
 }

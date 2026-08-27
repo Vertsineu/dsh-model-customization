@@ -32,7 +32,27 @@
 
 ## 安装
 
-### 一键脚本
+### 推荐：`dsh plugin`（npm）
+
+包已发布到 npm，可直接用 dsh 内置的插件管理命令安装（它会转发给 profile 目录内的 pnpm）：
+
+```sh
+dsh plugin --profile web add dsh-model-customization
+```
+
+然后在 profile 的 `cordis.patch.yml`（如 `$DSH_HOME/profiles/web/cordis.patch.yml`）末尾追加一行组合入口（pnpm 无法代替这一步）：
+
+```yaml
+- insert:
+    - id: model-customization
+      name: 'dsh-model-customization'
+```
+
+再**重启 dsh**（重新执行 `dsh web`），设置页即出现「模型定制」分区。
+
+升级：`dsh plugin --profile web update dsh-model-customization`（或重跑 add 命令）。
+
+### 一键脚本（上两步一次做完）
 
 ```sh
 git clone https://github.com/Vertsineu/dsh-model-customization.git
@@ -41,9 +61,7 @@ cd dsh-model-customization
 ./install.sh ~/.dsh/profiles/tui # 或指定其他 profile 目录
 ```
 
-安装后**重启 dsh**（重新执行 `dsh web`），设置页即出现「模型定制」分区。
-
-### 手动安装
+### 手动安装（本地 workspace / 离线）
 
 1. 把本仓库的 `package.json` 与 `lib/` 拷到 `$DSH_HOME/profiles/web/model-customization/`（目录名可任意，但要属于 profile 的 pnpm workspace）
 2. 在 profile 的 `pnpm-workspace.yaml` 的 `packages:` 列表中加入该目录

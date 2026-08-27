@@ -32,7 +32,27 @@ A pure-client plugin for the [dsh](https://github.com/deepseek-ai/deepseek-harne
 
 ## Installation
 
-### One-shot script
+### Recommended: `dsh plugin` (npm)
+
+The package is published to npm, so dsh's built-in plugin management installs it directly (it forwards to pnpm in the profile directory):
+
+```sh
+dsh plugin --profile web add dsh-model-customization
+```
+
+Then append one composition row to the profile's `cordis.patch.yml` (e.g. `$DSH_HOME/profiles/web/cordis.patch.yml`) — pnpm cannot do this part for you:
+
+```yaml
+- insert:
+    - id: model-customization
+      name: 'dsh-model-customization'
+```
+
+**Restart dsh** (run `dsh web` again) — the settings page gains a **模型定制 / Model Customization** section.
+
+Upgrade: `dsh plugin --profile web update dsh-model-customization` (or re-run the add command).
+
+### One-shot script (both steps at once)
 
 ```sh
 git clone https://github.com/Vertsineu/dsh-model-customization.git
@@ -41,9 +61,7 @@ cd dsh-model-customization
 ./install.sh ~/.dsh/profiles/tui # or pass another profile directory
 ```
 
-Then **restart dsh** (run `dsh web` again) — the settings page gains a **模型定制 / Model Customization** section.
-
-### Manual
+### Manual (local workspace / offline)
 
 1. Copy this repo's `package.json` and `lib/` into `$DSH_HOME/profiles/web/model-customization/` (any directory name works; it just has to be part of the profile's pnpm workspace).
 2. Add the directory to `packages:` in the profile's `pnpm-workspace.yaml`.
