@@ -1,0 +1,24 @@
+{
+  "name": "dsh-model-customization",
+  "description": "模型定制工作台: 按提供方路由与模型粒度定制输入类型、thinking 级别与额外参数, 写入现有 llm-pi-ai / llm-deepseek 设置段",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "main": "lib/index.js",
+  "exports": {
+    ".": "./lib/index.js",
+    "./client": "./lib/client.js",
+    "./package.json": "./package.json"
+  },
+  "dsh": {
+    "client": {
+      "inject": [
+        "@deepseek-ai/dsh-client-runtime",
+        "@deepseek-ai/dsh-client-ui-settings",
+        "@deepseek-ai/dsh-client-connection"
+      ],
+      "platform": "web"
+    }
+  },
+  "license": "MIT"
+}
