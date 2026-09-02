@@ -54,7 +54,7 @@ dsh plugin --profile web add -w dsh-model-customization
 
 (`-w` tells pnpm to add to the profile root — required when the workspace holds other packages, harmless in the standard single-package profile. Everything after `dsh plugin --profile web` is forwarded to pnpm verbatim.)
 
-Then append one composition row to the profile's `cordis.patch.yml` (e.g. `$DSH_HOME/profiles/web/cordis.patch.yml`) — pnpm cannot do this part for you:
+Then add one composition row to the profile's `cordis.patch.yml` (e.g. `$DSH_HOME/profiles/web/cordis.patch.yml`) — pnpm cannot do this part for you. If the file still holds only the template's top-level `[]` placeholder, delete that line first (appending after a `[]` document is not valid YAML):
 
 ```yaml
 - insert:
@@ -80,7 +80,7 @@ cd dsh-model-customization
 1. Copy this repo's `package.json` and `lib/` into `$DSH_HOME/profiles/web/model-customization/` (any directory name works; it just has to be part of the profile's pnpm workspace).
 2. Add the directory to `packages:` in the profile's `pnpm-workspace.yaml`.
 3. Add `"dsh-model-customization": "workspace:*"` to the profile's `package.json` `dependencies`.
-4. Append one row to the profile's `cordis.patch.yml`:
+4. Add one row to the profile's `cordis.patch.yml` (deleting the template's top-level `[]` placeholder line first, if present):
 
    ```yaml
    - insert:

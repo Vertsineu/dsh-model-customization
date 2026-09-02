@@ -46,6 +46,13 @@ if grep -qE "^[[:space:]]+-[[:space:]]+id:[[:space:]]+${ROW_ID}[[:space:]]*$" "$
     }
   ' "$PROFILE_DIR/cordis.patch.yml" > "$PROFILE_DIR/cordis.patch.yml.tmp"
   mv "$PROFILE_DIR/cordis.patch.yml.tmp" "$PROFILE_DIR/cordis.patch.yml"
+  # install.sh splices the row in place of the template's top-level `[]`
+  # placeholder; if removing the block leaves nothing but comments and blank
+  # lines, restore the placeholder so the file still parses as a top-level
+  # array (a comments-only YAML document is null, which dsh rejects).
+  if ! grep -qE '^[^#[:space:]]' "$PROFILE_DIR/cordis.patch.yml"; then
+    printf '[]\n' >> "$PROFILE_DIR/cordis.patch.yml"
+  fi
 else
   echo "  (row not present — nothing to remove)"
 fi

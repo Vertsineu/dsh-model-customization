@@ -54,7 +54,7 @@ dsh plugin --profile web add -w dsh-model-customization
 
 （`-w` 表示加到 profile 根：workspace 里还有其他包时必需，标准单包 profile 里无副作用。`dsh plugin --profile web` 之后的参数会原样转发给 pnpm。）
 
-然后在 profile 的 `cordis.patch.yml`（如 `$DSH_HOME/profiles/web/cordis.patch.yml`）末尾追加一行组合入口（pnpm 无法代替这一步）：
+然后在 profile 的 `cordis.patch.yml`（如 `$DSH_HOME/profiles/web/cordis.patch.yml`）加入一行组合入口（pnpm 无法代替这一步）。如果文件还只有模板的顶层 `[]` 占位行，先删掉这一行（`[]` 文档之后追加不是合法 YAML）：
 
 ```yaml
 - insert:
@@ -80,7 +80,7 @@ cd dsh-model-customization
 1. 把本仓库的 `package.json` 与 `lib/` 拷到 `$DSH_HOME/profiles/web/model-customization/`（目录名可任意，但要属于 profile 的 pnpm workspace）
 2. 在 profile 的 `pnpm-workspace.yaml` 的 `packages:` 列表中加入该目录
 3. 在 profile 的 `package.json` 的 `dependencies` 中加入 `"dsh-model-customization": "workspace:*"`
-4. 在 profile 的 `cordis.patch.yml` 追加一行：
+4. 在 profile 的 `cordis.patch.yml` 加入一行（若存在模板的顶层 `[]` 占位行，先删掉）：
 
    ```yaml
    - insert:
